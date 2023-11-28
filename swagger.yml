@@ -1,0 +1,306 @@
+swagger: '2.0'
+info:
+  title: 'Ceyda Basoglu Travel Company API'
+  description: 'API documentation for a fictitious short-term stay travel company'
+  version: '1.0'
+host: '127.0.0.1:5000'
+schemes:
+  - 'http'
+basePath: '/'
+paths:
+  /users:
+    get:
+      tags:
+        - 'Users'
+      summary: 'Retrieve a list of users'
+      responses:
+        200:
+          description: 'Successful operation'
+          schema:
+            type: 'object'
+            properties:
+              users:
+                type: 'array'
+                items:
+                  type: 'object'
+                  properties:
+                    idUser:
+                      type: 'integer'
+                    username:
+                      type: 'string'
+                    password:
+                      type: 'string'
+
+  /houses:
+    get:
+      tags:
+        - 'Houses'
+      summary: 'Retrieve a list of houses'
+      responses:
+        200:
+          description: 'Successful operation'
+          schema:
+            type: 'object'
+            properties:
+              houses:
+                type: 'array'
+                items:
+                  type: 'object'
+                  properties:
+                    idHouse:
+                      type: 'integer'
+                    description:
+                      type: 'string'
+                    amenities:
+                      type: 'string'
+                    city:
+                      type: 'string'
+                    available_start:
+                      type: 'string'
+                    available_end:
+                      type: 'string'
+    post:
+      tags:
+        - "House"
+      summary: "Create a new house"
+      parameters:
+        - in: "header"
+          name: "x-access-token"
+          type: "string"
+          required: true
+          description: "Access token"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              priceHouse:
+                type: "integer"
+              HouseDescription:
+                type: "string"
+              HouseAmenities:
+                type: "string"
+              HouseCity:
+                type: "string"
+              AvailableStart:
+                type: "string"
+                format: "date"
+              AvailableEnd:
+                type: "string"
+                format: "date"
+          description: "House data"
+      responses:
+        201:
+          description: "House created successfully"
+        400:
+          description: "Bad request"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
+
+  /houses/{house_id}:
+    put:
+      tags:
+        - "House"
+      summary: "Update a house"
+      parameters:
+        - in: "header"
+          name: "x-access-token"
+          type: "string"
+          required: true
+          description: "Access token"
+        - in: "path"
+          name: "house_id"
+          type: "integer"
+          required: true
+          description: "House ID"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              priceHouse:
+                type: "integer"
+              HouseDescription:
+                type: "string"
+              HouseAmenities:
+                type: "string"
+              HouseCity:
+                type: "string"
+              AvailableStart:
+                type: "string"
+                format: "date"
+              AvailableEnd:
+                type: "string"
+                format: "date"
+          description: "Updated house data"
+      responses:
+        200:
+          description: "House updated successfully"
+        400:
+          description: "Bad request"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "House not found"
+        500:
+          description: "Internal Server Error"
+
+    delete:
+      tags:
+        - "House"
+      summary: "Delete a house"
+      parameters:
+        - in: "header"
+          name: "x-access-token"
+          type: "string"
+          required: true
+          description: "Access token"
+        - in: "path"
+          name: "house_id"
+          type: "integer"
+          required: true
+          description: "House ID"
+      responses:
+        200:
+          description: "House deleted successfully"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "House not found"
+        500:
+          description: "Internal Server Error"
+
+  /bookings:
+    get:
+      tags:
+        - 'Bookings'
+      summary: 'Retrieve a list of bookings'
+      responses:
+        200:
+          description: 'Successful operation'
+          schema:
+            type: 'object'
+            properties:
+              bookings:
+                type: 'array'
+                items:
+                  type: 'object'
+                  properties:
+                    idBooking:
+                      type: 'integer'
+                    booking_date:
+                      type: 'string'
+                    stay_start:
+                      type: 'string'
+                    stay_end:
+                      type: 'string'
+                    names_of_people:
+                      type: 'string'
+                    user_id:
+                      type: 'integer'
+                    house_id:
+                      type: 'integer'
+
+    post:
+      tags:
+        - "Booking"
+      summary: "Create a new booking"
+      parameters:
+        - in: "header"
+          name: "x-access-token"
+          type: "string"
+          required: true
+          description: "Access token"
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              BookingDate:
+                type: "string"
+                format: "date"
+              StayStart:
+                type: "string"
+                format: "date"
+              StayEnd:
+                type: "string"
+                format: "date"
+              NumberOfPeople:
+                type: "integer"
+              User_idUser:
+                type: "integer"
+              House_idHouse:
+                type: "integer"
+          description: "Booking data"
+      responses:
+        201:
+          description: "Booking created successfully"
+        400:
+          description: "Bad request"
+        401:
+          description: "Unauthorized"
+        500:
+          description: "Internal Server Error"
+
+  /bookings/{booking_id}:
+    delete:
+      tags:
+        - "Booking"
+      summary: "Delete a booking"
+      parameters:
+        - in: "header"
+          name: "x-access-token"
+          type: "string"
+          required: true
+          description: "Access token"
+        - in: "path"
+          name: "booking_id"
+          type: "integer"
+          required: true
+          description: "Booking ID"
+      responses:
+        200:
+          description: "Booking deleted successfully"
+        401:
+          description: "Unauthorized"
+        404:
+          description: "Booking not found"
+        500:
+          description: "Internal Server Error"
+  
+  /login:
+    post:
+      tags:
+        - "Authentication"
+      summary: "Login and obtain an authentication token"
+      parameters:
+        - name: "body"
+          in: "body"
+          required: true
+          schema:
+            type: "object"
+            properties:
+              username:
+                type: "string"
+              password:
+                type: "string"
+      responses:
+        '200':
+          description: 'Successful login'
+          schema:
+            type: 'object'
+            properties:
+              token:
+                type: 'string'
+        '401':
+          description: 'Unauthorized - Invalid credentials'
+
+  
+
+
+
